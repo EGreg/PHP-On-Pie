@@ -1,0 +1,146 @@
+-- phpMyAdmin SQL Dump
+-- version 3.3.3
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jul 16, 2010 at 08:38 PM
+-- Server version: 5.0.45
+-- PHP Version: 5.2.9
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}app_user`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}app_user` (
+  `user_id` bigint(20) unsigned NOT NULL,
+  `platform` enum('native','facebook') collate utf8_unicode_ci NOT NULL,
+  `app_id` bigint(20) NOT NULL,
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `time_updated` datetime NOT NULL,
+  `session_key` varchar(128) character set utf8 collate utf8_bin default NULL,
+  `session_expires` varchar(255) collate utf8_unicode_ci default NULL,
+  `state` enum('visited','added','removed') collate utf8_unicode_ci NOT NULL default 'visited',
+  `platform_uid` bigint(20) NOT NULL,
+  PRIMARY KEY  (`user_id`,`platform`,`app_id`),
+  UNIQUE KEY `platform` (`platform`,`app_id`,`platform_uid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}app_user`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}contact`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}contact` (
+  `user_id` bigint(20) unsigned NOT NULL,
+  `label` varchar(63) collate utf8_unicode_ci NOT NULL,
+  `contact_user_id` bigint(20) unsigned NOT NULL,
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `secret` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'the shared secret between the users to send data',
+  `contact_user_password_hash` varchar(255) character set utf8 collate utf8_bin NOT NULL,
+  PRIMARY KEY  (`user_id`,`label`,`contact_user_id`),
+  UNIQUE KEY `secret` (`secret`),
+  UNIQUE KEY `contact_user_password_hash` (`contact_user_password_hash`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}contact`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}email`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}email` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `address` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `time_updated` datetime NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `state` enum('unverified','active','suspended','unsubscribed') collate utf8_unicode_ci NOT NULL,
+  `activation_code` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `activation_code_expires` datetime NOT NULL,
+  `auth_code` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Used in all links from email, to authenticate source',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `address` (`address`),
+  KEY `time_updated` (`time_updated`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=10 ;
+
+--
+-- Dumping data for table `{$prefix}email`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}mobile`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}mobile` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `number` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `time_updated` datetime NOT NULL,
+  `user_id` bigint(20) unsigned NOT NULL,
+  `extension` varchar(7) collate utf8_unicode_ci NOT NULL,
+  `carrier` enum('unverified','att','cingular','sprint','tmobile','verizon') collate utf8_unicode_ci NOT NULL default 'unverified',
+  `state` enum('unverified','active','suspended','unsubscribed') collate utf8_unicode_ci NOT NULL default 'unverified',
+  `capabilities` enum('unverified','sms','wap','internet','sms_and_wap','sms_and_internet') collate utf8_unicode_ci NOT NULL default 'unverified',
+  `activation_code` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `activation_code_expires` datetime NOT NULL,
+  `auth_code` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Used in all links from sms, to authenticate phone & source',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `number` (`number`),
+  KEY `time_updated` (`time_updated`),
+  KEY `user_id` (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `{$prefix}mobile`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}user`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}user` (
+  `id` bigint(20) unsigned NOT NULL auto_increment,
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `time_updated` datetime NOT NULL,
+  `session_key` varchar(32) character set utf8 collate utf8_bin NOT NULL COMMENT 'The session key from the most recent authenticated request from this user.',
+  `iphone_key` varchar(32) character set utf8 collate utf8_bin NOT NULL COMMENT 'key stored on the user''s iphone, until they deactivate it',
+  `fb_uid` bigint(20) unsigned NOT NULL default '0',
+  `password_hash` binary(32) default NULL,
+  `login_token` binary(32) default NULL,
+  `login_token_expires` datetime default NULL,
+  `email_address` varchar(255) collate utf8_unicode_ci default NULL,
+  `mobile_number` varchar(255) collate utf8_unicode_ci default NULL,
+  `username` varchar(63) collate utf8_unicode_ci default NULL,
+  `icon` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'relative path to user''s icon folder, containing 48.png, 32.png and 16.png',
+  PRIMARY KEY  (`id`),
+  UNIQUE KEY `fb_uid` (`fb_uid`),
+  KEY `username` (`username`),
+  KEY `iphone_key` (`iphone_key`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=52 ;
+
+--
+-- Dumping data for table `{$prefix}user`
+--
+

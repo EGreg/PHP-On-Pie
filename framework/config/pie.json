@@ -1,0 +1,19 @@
+{
+	"pie": {
+		"defaultTimezone": "America/New_York",
+		"handlersBeforeEvent": {
+			"pie/init": ["pie/before/pie/init"],
+			"pie/tool/render": ["pie/before/tool/render"]
+		},
+		"handlersAfterEvent": {
+			"pie/tool/render": ["pie/after/tool/render"]
+		},
+		"routes": {
+			"": {"module": "pie", "action": "welcome"}
+		},
+		"exception": {
+			"showTrace": false,
+			"showFileAndLine": true
+		}
+	}
+}

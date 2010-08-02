@@ -1,0 +1,206 @@
+-- phpMyAdmin SQL Dump
+-- version 3.3.3
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jul 16, 2010 at 08:40 PM
+-- Server version: 5.0.45
+-- PHP Version: 5.2.9
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}attribute`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}attribute` (
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `by_user_id` bigint(20) unsigned NOT NULL,
+  `title` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `icon` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'relative path to attribute''s icon folder, containing 48.png, 32.png and 16.png',
+  `state` enum('rejected','pending','searchable','published') collate utf8_unicode_ci NOT NULL DEFAULT 'pending',
+  PRIMARY KEY  (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}attribute`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}category`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}category` (
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  `by_user_id` bigint(20) unsigned NOT NULL,
+  `title` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `icon` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'relative path to category''s icon folder, containing 48.png, 32.png and 16.png',
+  `state` enum('rejected','pending','searchable','published') collate utf8_unicode_ci NOT NULL DEFAULT 'pending',
+  PRIMARY KEY  (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}category`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}interest`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}interest` (
+  `user_id` bigint(20) unsigned NOT NULL COMMENT 'The user',
+  `category_name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'The category user is interested in',
+  `level` decimal(10,9) NOT NULL COMMENT '-1 to 1, interest level. May be used to deliver more relevant summaries'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}interest`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}item`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}item` (
+  `publisher_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `time_updated` datetime NOT NULL,
+  `kind` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `title` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `icon` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'relative path to item''s icon folder, containing 48.png, 32.png and 16.png',
+  `description` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'an extended description that may be displayed with the title',
+  `state` enum('rejected','pending','private','searchable','published') collate utf8_unicode_ci NOT NULL DEFAULT 'pending',
+  `price_credits` decimal(10,2) NOT NULL,
+  `share_count` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`publisher_id`,`name`),
+  KEY `price_credits` (`price_credits`),
+  KEY `share_count` (`share_count`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}item`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}item_day`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}item_day` (
+  `publisher_id` bigint(20) unsigned NOT NULL,
+  `item_name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `day` date NOT NULL,
+  `price_credits` decimal(10,2) NOT NULL,
+  `share_count` int(10) unsigned NOT NULL,
+  `comment_count` int(10) unsigned NOT NULL,
+  KEY `ITEM_DAY_SHARE` (`publisher_id`,`item_name`,`day`,`price_credits`),
+  KEY `ITEM_DAY_PRICE` (`publisher_id`,`item_name`,`day`,`share_count`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}item_day`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}share`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}share` (
+  `by_user_id` bigint(20) unsigned NOT NULL,
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `publisher_id` bigint(20) unsigned NOT NULL,
+  `item_name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `time_updated` datetime NOT NULL,
+  `spent_credits` decimal(10,2) NOT NULL,
+  PRIMARY KEY  (`by_user_id`,`name`),
+  UNIQUE KEY `ITEM` (`publisher_id`,`item_name`,`by_user_id`),
+  KEY `time_created` (`time_created`),
+  KEY `USER` (`by_user_id`,`publisher_id`,`item_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}share`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}tag`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}tag` (
+  `publisher_id` bigint(20) unsigned NOT NULL,
+  `item_name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `attribute_name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `category_name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `weight` decimal(10,9) NOT NULL,
+  UNIQUE KEY `NATURAL` (`publisher_id`,`item_name`,`attribute_name`,`category_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}tag`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}user`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}user` (
+  `user_id` bigint(20) unsigned NOT NULL,
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP,
+  `time_updated` datetime NOT NULL,
+  `credits` decimal(10,2) NOT NULL,
+  `share_count` int(10) unsigned NOT NULL,
+  PRIMARY KEY  (`user_id`),
+  UNIQUE KEY `credits` (`credits`),
+  KEY `share_count` (`share_count`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}user`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}user_day`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}user_day` (
+  `user_id` bigint(20) unsigned NOT NULL,
+  `day` date NOT NULL,
+  `credits` decimal(10,2) NOT NULL,
+  `share_count` int(10) unsigned NOT NULL,
+  KEY `USER_DAY_SHARE` (`user_id`,`day`,`share_count`),
+  KEY `USER_DAY_CREDITS` (`user_id`,`day`,`credits`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}user_day`
+--
+

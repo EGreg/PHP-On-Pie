@@ -1,0 +1,27 @@
+{
+	"users": {
+		"facebookApps": {
+			"APP NAME HERE": {
+				"appId": "FACEBOOK APP ID HERE",
+				"name": "FACEBOOK APP NAME HERE",
+				"url": "http:\/\/apps.facebook.com\/YOURAPP",
+				"apiKey": "PUT API KEY HERE",
+				"secret": "PUT SECRET HERE",
+				"subpath": "/facebook"
+			}
+		}
+	},
+  "db": {
+    "connections": {
+      "users": {
+        "prefix": "PREFIX HERE",
+        "dsn": "mysql:host=localhost;dbname=DBNAME",
+        "username": "USERNAME",
+        "password": "PASSWORD",
+        "driver_options": {
+          "3": 2
+        }
+      }
+    }
+  }
+}

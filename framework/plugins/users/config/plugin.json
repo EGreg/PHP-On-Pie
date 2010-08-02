@@ -1,0 +1,25 @@
+{
+	"pie": {
+		"handlersBeforeEvent": {
+			"pie/init": ["users/before/pie/init"],
+			"pie/objects": ["users/before/pie/objects"],
+			"pie/redirect": ["users/before/pie/redirect"],
+			"pie/response/notices": ["users/before/pie/response/notices"]
+		},
+		"handlersAfterEvent": {
+			"pie/reroute": ["users/after/pie/reroute"],
+			"pie/addScriptLines": ["users/after/pie/addScriptLines"]
+		}
+	},
+	"users": {
+		"facebookApps": {
+
+		},
+		"paths": {
+			"icons": "files/users/icons"
+		},
+		"activationCodeExpires": 10080,
+		"activationEmailView": "users/email/activation.php",
+		"activationEmailSubject": "Welcome! Please confirm your email address."
+	}
+}

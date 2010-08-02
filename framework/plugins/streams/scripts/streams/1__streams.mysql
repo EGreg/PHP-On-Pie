@@ -1,0 +1,220 @@
+-- phpMyAdmin SQL Dump
+-- version 3.3.3
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Jul 16, 2010 at 08:40 PM
+-- Server version: 5.0.45
+-- PHP Version: 5.2.9
+
+SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}forum`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}forum` (
+  `publisher_id` bigint(20) unsigned NOT NULL COMMENT 'id of the user that owns the forum',
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'local to fm server of publisher_id',
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'saved on fm server of publisher_id',
+  `title` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'human-readable title of the forum',
+  PRIMARY KEY  (`publisher_id`,`name`),
+  KEY `time_created` (`time_created`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}forum`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}forum_role`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}forum_role` (
+  `publisher_id` bigint(20) unsigned NOT NULL COMMENT 'id of the user that owns the forum',
+  `forum_name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'local to fm server of the publisher_id',
+  `of_user_id` bigint(20) unsigned NOT NULL COMMENT 'id of the user whose role is being recorded',
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'saved on fm server of forum''s owner',
+  `level` int(11) NOT NULL COMMENT '10=''see'', 20=''details'', 30=''write'', 40=''publish'', 50=''invite'', 60=''manage'', 70=''own''',
+  PRIMARY KEY  (`publisher_id`,`forum_name`,`of_user_id`),
+  KEY `time_created` (`time_created`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}forum_role`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}message`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}message` (
+  `publisher_id` bigint(20) unsigned NOT NULL COMMENT 'id of user that owns the stream to place the message on',
+  `stream_name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'the stream to place the message on',
+  `name` bigint(255) NOT NULL,
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'saved on fm server of publisher_id',
+  `time_sent` datetime default NULL COMMENT 'time on fm server of by_user_id',
+  `by_user_id` bigint(20) unsigned NOT NULL COMMENT 'id of the user sending message. Can be same as for_user_id',
+  `comment` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'short human-readable content, like twitter and its 140 characters',
+  `instructions` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'instructions are in a machine-readable format depending on the type of the stream. delta, reverse delta, linking and embedding',
+  `thread_key` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `re_publisher_id` bigint(20) unsigned NOT NULL,
+  `re_message_name` varchar(255) collate utf8_unicode_ci NOT NULL,
+  `weight` float(10,4) NOT NULL default '1.0000' COMMENT 'this may depend on the reputation of user_by relative to the stream',
+  PRIMARY KEY  (`publisher_id`,`name`),
+  KEY `STREAM` (`publisher_id`,`stream_name`),
+  KEY `AUTHOR` (`by_user_id`),
+  KEY `time_created` (`time_created`),
+  KEY `time_sent` (`time_sent`),
+  KEY `THREAD` (`thread_key`),
+  KEY `REGARDING` (`re_publisher_id`,`re_message_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}message`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}notification`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}notification` (
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'saved on fm server of for_user_id',
+  `time_sent` datetime NOT NULL COMMENT 'saved on fm server of by_publisher_id',
+  `for_user_id` bigint(20) unsigned NOT NULL COMMENT 'the user to notify',
+  `publisher_id` bigint(20) unsigned NOT NULL COMMENT 'the owner of the stream causing the notification',
+  `stream_name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'the stream causing the notification',
+  `time_viewed` datetime default NULL COMMENT 'saved on fm server of for_user_id',
+  `time_read` datetime default NULL COMMENT 'saved on fm server of for_user_id',
+  `comment` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'optional human-readable comment to display along with notification',
+  KEY `time_created` (`time_created`),
+  KEY `time_viewed` (`time_viewed`),
+  KEY `STREAM` (`publisher_id`,`stream_name`),
+  KEY `RECIPIENT` (`for_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}notification`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}sent`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}sent` (
+  `publisher_id` bigint(20) unsigned NOT NULL COMMENT 'id of user that owns the stream to place the message on',
+  `stream_name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'the stream to place the message on',
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'saved on fm server of publisher_id',
+  `time_sent` datetime default NULL COMMENT 'time on fm server of by_user_id',
+  `thread_key` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'a uniqid to keep track of threads between streams',
+  `by_user_id` bigint(20) unsigned NOT NULL COMMENT 'id of the user sending message. Can be same as for_user_id',
+  `comment` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'short human-readable content, like twitter and its 140 characters',
+  `instructions` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'instructions are in a machine-readable format depending on the type of the stream. delta, reverse delta, linking and embedding',
+  KEY `STREAM` (`publisher_id`,`stream_name`),
+  KEY `THREAD` (`thread_key`),
+  KEY `AUTHOR` (`by_user_id`),
+  KEY `time_created` (`time_created`),
+  KEY `time_sent` (`time_sent`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='save to this table after writing to someone else''s stream';
+
+--
+-- Dumping data for table `{$prefix}sent`
+--
+
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}stream`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}stream` (
+  `publisher_id` bigint(20) unsigned NOT NULL COMMENT 'id of user that owns the stream',
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'saved on fm server of publisher_id',
+  `name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'the name of the stream by which others can subscribe to it. May contain prefixes like forum name, etc.',
+  `alias_of_name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'if not empty, this stream is simply an alias of another stream',
+  `type` varchar(63) collate utf8_unicode_ci NOT NULL COMMENT 'mimetypes plus more types of the form a/b and a/b/c',
+  `title` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'human-readable title of the stream',
+  `icon` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'relative path to stream''s icon folder, containing 48.png, 32.png and 16.png',
+  `content` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'This content is indexable',
+  PRIMARY KEY  (`publisher_id`,`name`),
+  KEY `content` (`content`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}stream`
+--
+
+INSERT INTO `{$prefix}stream` (`publisher_id`, `time_created`, `name`, `alias_of_name`, `type`, `title`, `icon`, `content`) VALUES
+(0, '0000-00-00 00:00:00', 'user/about_me', '', '0', 'Bio', '', ''),
+(0, '0000-00-00 00:00:00', 'user/birthday_date', '', '0', 'Birthday', '', ''),
+(0, '0000-00-00 00:00:00', 'user/books', '', '0', 'Books', '', ''),
+(0, '0000-00-00 00:00:00', 'user/current_location', '', '0', 'Current location', '', ''),
+(0, '0000-00-00 00:00:00', 'user/education_history', '', '0', 'Education history', '', ''),
+(0, '0000-00-00 00:00:00', 'user/fb_profile_url', '', '0', 'Facebook profile URL', '', ''),
+(0, '0000-00-00 00:00:00', 'user/fb_uid', '', '0', 'Facebook uid', '', ''),
+(0, '0000-00-00 00:00:00', 'user/first_name', '', '0', 'First name', '', ''),
+(0, '0000-00-00 00:00:00', 'user/hometown_location', '', '0', 'Hometown Location', '', ''),
+(0, '0000-00-00 00:00:00', 'user/hs_info', '', '0', 'High school', '', ''),
+(0, '0000-00-00 00:00:00', 'user/last_name', '', '0', 'Last name', '', ''),
+(0, '0000-00-00 00:00:00', 'user/meeting_for', '', '0', 'Meeting for', '', ''),
+(0, '0000-00-00 00:00:00', 'user/meeting_sex', '', '0', 'Interested in', '', ''),
+(0, '0000-00-00 00:00:00', 'user/movies', '', '0', 'Movies', '', ''),
+(0, '0000-00-00 00:00:00', 'user/music', '', '0', 'Music', '', ''),
+(0, '0000-00-00 00:00:00', 'user/name', '', '0', '', '', ''),
+(0, '0000-00-00 00:00:00', 'user/pic', '', '0', 'Pic', '', ''),
+(0, '0000-00-00 00:00:00', 'user/pic_big', '', '0', 'Pic (big)', '', ''),
+(0, '0000-00-00 00:00:00', 'user/pic_small', '', '0', 'Pic (small)', '', ''),
+(0, '0000-00-00 00:00:00', 'user/pic_square', '', '0', 'Pic (square)', '', ''),
+(0, '0000-00-00 00:00:00', 'user/political', '', '0', 'Political views', '', ''),
+(0, '0000-00-00 00:00:00', 'user/quotes', '', '0', 'Quotes', '', ''),
+(0, '0000-00-00 00:00:00', 'user/relationship_status', '', '0', 'Relationship status', '', ''),
+(0, '0000-00-00 00:00:00', 'user/religion', '', '0', 'Religion', '', ''),
+(0, '0000-00-00 00:00:00', 'user/sex', '', '0', 'Sex', '', ''),
+(0, '0000-00-00 00:00:00', 'user/significant_other_fb_uid', '', '0', '', '', ''),
+(0, '0000-00-00 00:00:00', 'user/status', '', '0', 'Status', '', ''),
+(0, '0000-00-00 00:00:00', 'user/timezone', '', '0', 'Timezone', '', ''),
+(0, '0000-00-00 00:00:00', 'user/tv', '', '0', 'TV Shows', '', ''),
+(0, '0000-00-00 00:00:00', 'user/username', '', '0', 'Username', '', ''),
+(0, '0000-00-00 00:00:00', 'user/website', '', '0', 'Website', '', ''),
+(0, '0000-00-00 00:00:00', 'user/work_history', '', '0', 'Work history', '', ''),
+(0, '0000-00-00 00:00:00', 'users/affiliations', '', '0', 'Affiliations', '', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `{$prefix}subscription`
+--
+
+CREATE TABLE IF NOT EXISTS `{$prefix}subscription` (
+  `publisher_id` bigint(20) unsigned NOT NULL COMMENT 'id of user who owns the stream',
+  `stream_name` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'local to fm server of publisher_id',
+  `by_user_id` bigint(20) unsigned NOT NULL COMMENT 'id of user whose subscription is being recorded',
+  `time_created` timestamp NOT NULL default CURRENT_TIMESTAMP COMMENT 'saved on fm server of publisher_id',
+  `time_updated` datetime NOT NULL COMMENT 'saved on fm server of for_user_id',
+  `filter` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'optional filter that stream renderer may use. Normally, a boolean SQL expression goes here.',
+  `read_level` int(11) NOT NULL COMMENT '10=''latest'',20=''since_subscribing'',30=''all''',
+  `write_level` int(11) NOT NULL COMMENT '10=''post'',20=''edit'',30=''delete''',
+  `relevance` decimal(10,9) NOT NULL COMMENT '0-1 relevance level, for generating summaries',
+  PRIMARY KEY  (`publisher_id`,`stream_name`,`by_user_id`),
+  KEY `SUBSCRIBER` (`by_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+--
+-- Dumping data for table `{$prefix}subscription`
+--
+

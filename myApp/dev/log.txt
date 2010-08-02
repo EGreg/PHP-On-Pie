@@ -1,0 +1,3 @@
+Created daily and daily/trunk folders.
+Copied myApp contents to daily/trunk.
+Created dev subfolder and started this log.

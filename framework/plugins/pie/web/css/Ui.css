@@ -1,0 +1,173 @@
+.pie_error { color: #C22 !important; font-style: italic !important; }
+
+/* Common pie classes */
+.pie_collapsed { border-bottom: solid 2px #777 !important; }
+.pie_compact {}
+.pie_editable { color: #225 !important; }
+.pie_editing {}
+.pie_expanded { }
+.pie_hidden { display: none; }
+.pie_modified {}
+.pie_notice { border: solid 2px #ba8; background: #f2e097 !important; padding: 5px; }
+.pie_notice a { font-weight: bold; }
+.pie_success { background: #e2ffee !important; }
+.pie_required { border: solid 2px #AAC !important; }
+.pie_selected {}
+.pie_throb { background-image: url(../img/throbbers/bars.gif); background-repeat: no-repeat; background-position: center center; }
+
+.pie_overlay { background: #EEEEFF; -moz-border-radius: 5px; -webkit-border-radius: 5px; }
+.pie_overlay .pie_title { background-color: #55A; color: white; margin: 0px; padding: 5px 10px 5px 10px; font-size: 18px; font-weight: bold; -moz-border-radius: 5px 5px 0px 0px; border-radius: 5px 5px 0px 0px; -webkit-border-top-left-radius:5px; -webkit-border-top-right-radius:5px; }
+.pie_loading { opacity:0.9; filter:alpha(opacity=90) }
+
+.pie_panel_tool { text-align: left; }
+.pie_panel_tool_header { padding: 2px 0px 2px 0px; font-weight: bold; height: 20px; font-size: 14px; background-color: #EEE; }
+.pie_panel_tool_header button:active { background-color: #CCC; }
+.pie_panel_tool_title { padding: 2px 0px 0px 5px; }
+.pie_collapsed .pie_panel_tool_title { cursor: pointer; }
+.pie_panel_tool_header .pie_panel_tool_buttons { float: right; }
+.pie_panel_tool_form { display: none; clear: both; padding: 5px; border: solid 1px #EEE; }
+.pie_panel_tool_static { display: block; clear: both; padding: 5px; border: solid 1px #EEE; }
+.pie_panel_tool .pie_editing .pie_panel_tool_static { display: none; }
+.pie_panel_tool .pie_editing .pie_panel_tool_form { display: block; }
+.pie_panel_tool .pie_collapsed .pie_panel_tool_form { display: none; }
+.pie_panel_tool .pie_collapsed .pie_panel_tool_static { display: none; }
+.pie_panel_tool .pie_collapsed .pie_panel_tool_form { display: none; }
+.pie_panel_tool .pie_collapsed .pie_panel_tool_static { display: none; }
+.pie_panel_tool .pie_panel_tool_save { display: none; }
+.pie_panel_tool .pie_panel_tool_cancel { display: none; }
+.pie_panel_tool .pie_editing .pie_panel_tool_cancel { display: inline; }
+.pie_panel_tool .pie_modified .pie_panel_tool_save { display: inline; }
+.pie_panel_tool .pie_notice .pie_panel_tool_header { background: #CAA; }
+.pie_panel_tool .pie_modified .pie_panel_tool_header { background: #f2e097; }
+.pie_panel_tool .pie_editing .pie_panel_tool_edit { display: none; }
+
+
+.pie_form_fieldname { width: 150px; }
+.pie_form_tool .pie_form_tool_table { width: 100%; text-align: left; }
+.pie_form_tool .pie_form_tool_table td { vertical-align: middle; }
+.pie_form_tool .pie_form_fieldname { text-align: right; padding-right: 10px; font-weight: bold; }
+.pie_form_tool .pie_form_textareamessage { text-align: center; padding-right: 5%; }
+form textarea { width: 95%; }
+
+.pie_inplace_tool { display: inline; position: relative; }
+.pie_inplace_tool .pie_inplace_tool_nicewrap { display: inline; }
+.pie_inplace_tool .pie_inplace_tool_editbuttons { display: none; position: absolute; bottom: -19px; left: 0px; z-index: 9901; }
+.pie_inplace_tool .pie_inplace_tool_editbuttons button { display: inline; }
+.pie_inplace_tool .pie_inplace_tool_static { display: inline; border: solid 1px transparent; cursor: default; }
+.pie_inplace_tool .pie_inplace_tool_blockstatic { display: block; border: solid 1px transparent; cursor: default; }
+.pie_inplace_tool .pie_hover .pie_inplace_tool_static,
+.pie_inplace_tool .pie_hover .pie_inplace_tool_blockstatic { border: dashed 1px #AAE; cursor: pointer; }
+.pie_inplace_tool .pie_hover .pie_inplace_tool_editbuttons { background-color: #EEE; display: inline; }
+.pie_inplace_tool .pie_inplace_tool_fieldinput { max-height: 500px; }
+.pie_inplace_tool .pie_inplace_tool_undermessage { display: none; position: absolute; bottom: -20px; left: 10px; min-width: 100px; }
+.pie_inplace_tool .pie_error { background-color: #FEE; }
+
+.pie_inplace_tool .pie_inplace_tool_form { display: none; }
+.pie_inplace_tool .pie_inplace_tool_invisible { display: none; }
+.pie_inplace_tool .pie_editing .pie_inplace_tool_form { display: inline; }
+.pie_inplace_tool .pie_editing .pie_inplace_tool_static { display: none; }
+.pie_inplace_tool .pie_editing .pie_inplace_tool_blockstatic { display: none; }
+.pie_inplace_tool .pie_editing .pie_inplace_tool_edit { display: none; }
+.pie_inplace_tool .pie_editing .pie_inplace_tool_invisible { display: block; visibility: hidden; position: absolute; top: -20px; z-index: 1; }
+.pie_inplace_tool .pie_inplace_tool_buttons { position: absolute; bottom: -20px; left: 0px; z-index: 9900; }
+.pie_inplace_tool .pie_inplace_tool_buttons button { background-color: #EEE; display: inline; }
+
+.basic16 { background: url('../img/icons/basic16.png'); background-repeat: no-repeat; background-attachment: scroll; height: 16px; padding-left: 17px; text-align: left; font-size: 12px; }
+button.basic16 { height: 20px; border: solid 1px transparent; cursor: pointer; font-weight: bold; }
+button.basic16:hover { border: outset 1px #889; cursor: pointer; }
+button.basic16:active { border: inset 1px #889; cursor: pointer; background-color: #CCC; }
+
+.basic16_home { background-position: 0px -2px; }
+.basic16_zoom { background-position: 0px -22px; }
+.basic16_rss { background-position: 0px -42px; }
+.basic16_key { background-position: 0px -62px; }
+.basic16_flag { background-position: 0px -82px; }
+.basic16_flag2 { background-position: 0px -102px; }
+.basic16_save { background-position: 0px -122px; }
+.basic16_save2 { background-position: 0px -142px; }
+.basic16_folder { background-position: 0px -162px; }
+.basic16_clock { background-position: 0px -182px; }
+.basic16_bug { background-position: 0px -202px; }
+.basic16_group { background-position: 0px -222px; }
+.basic16_user { background-position: 0px -242px; }
+.basic16_edit { background-position: 0px -262px; }
+.basic16_light { background-position: 0px -282px; }
+.basic16_light2 { background-position: 0px -302px; }
+.basic16_lock { background-position: 0px -322px; }
+.basic16_unlock { background-position: 0px -342px; }
+.basic16_right { background-position: 0px -362px; }
+.basic16_down { background-position: 0px -382px; }
+.basic16_left { background-position: 0px -402px; }
+.basic16_up { background-position: 0px -422px; }
+.basic16_plus { background-position: 0px -442px; }
+.basic16_minus { background-position: 0px -462px; }
+.basic16_delete { background-position: 0px -482px; }
+.basic16_check { background-position: 0px -502px; }
+.basic16_error { background-position: 0px -522px; }
+.basic16_warning { background-position: 0px -542px; }
+.basic16_question { background-position: 0px -562px; }
+.basic16_info { background-position: 0px -582px; }
+.basic16_file { background-position: 0px -602px; }
+.basic16_music { background-position: 0px -622px; }
+.basic16_mail { background-position: 0px -642px; }
+.basic16_mail2 { background-position: 0px -662px; }
+.basic16_heart { background-position: 0px -682px; }
+.basic16_starfull { background-position: 0px -702px; }
+.basic16_starhalf { background-position: 0px -722px; }
+.basic16_starempty { background-position: 0px -742px; }
+.basic16_exclaim { background-position: 0px -762px; }
+.basic16_exclaim2 { background-position: 0px -782px; }
+
+.basic32 { background: url('../img/icons/basic32.png'); background-repeat: no-repeat; background-attachment: scroll; height: 32px; padding-left: 34px; text-align: left; font-size: 18px; }
+button.basic32 { height: 40px; border: solid 1px transparent; cursor: pointer; font-weight: bold; }
+button.basic32:hover { border: outset 1px #889; cursor: pointer; }
+button.basic32:active { border: inset 1px #889; cursor: pointer; background-color: #CCC; }
+
+.basic32_home { background-position: 0px -4px; }
+.basic32_zoom { background-position: 0px -44px; }
+.basic32_rss { background-position: 0px -84px; }
+.basic32_key { background-position: 0px -124px; }
+.basic32_flag { background-position: 0px -164px; }
+.basic32_flag2 { background-position: 0px -204px; }
+.basic32_save { background-position: 0px -244px; }
+.basic32_save2 { background-position: 0px -284px; }
+.basic32_folder { background-position: 0px -324px; }
+.basic32_clock { background-position: 0px -364px; }
+.basic32_bug { background-position: 0px -404px; }
+.basic32_group { background-position: 0px -444px; }
+.basic32_user { background-position: 0px -484px; }
+.basic32_edit { background-position: 0px -524px; }
+.basic32_light { background-position: 0px -564px; }
+.basic32_light2 { background-position: 0px -604px; }
+.basic32_lock { background-position: 0px -644px; }
+.basic32_unlock { background-position: 0px -684px; }
+.basic32_right { background-position: 0px -724px; }
+.basic32_down { background-position: 0px -764px; }
+.basic32_left { background-position: 0px -804px; }
+.basic32_up { background-position: 0px -844px; }
+.basic32_plus { background-position: 0px -884px; }
+.basic32_minus { background-position: 0px -924px; }
+.basic32_delete { background-position: 0px -964px; }
+.basic32_check { background-position: 0px -1004px; }
+.basic32_error { background-position: 0px -1044px; }
+.basic32_warning { background-position: 0px -1084px; }
+.basic32_question { background-position: 0px -1124px; }
+.basic32_info { background-position: 0px -1164px; }
+.basic32_file { background-position: 0px -1204px; }
+.basic32_music { background-position: 0px -1244px; }
+.basic32_mail { background-position: 0px -1284px; }
+.basic32_mail2 { background-position: 0px -1324px; }
+.basic32_heart { background-position: 0px -1364px; }
+.basic32_starfull { background-position: 0px -1404px; }
+.basic32_starhalf { background-position: 0px -1444px; }
+.basic32_starempty { background-position: 0px -1484px; }
+.basic32_exclaim { background-position: 0px -1524px; }
+.basic32_exclaim2 { background-position: 0px -1564px; }
+
+.basic16_cancel { background-position: 0px -482px; }
+.basic32_cancel { background-position: 0px -964px; }
+
+/* For IE6 only */
+
+* html .pie_inplace_tool .pie_inplace_tool_editbuttons { top: -17px; }
+* html .pie_inplace_tool .pie_inplace_tool_buttons { top: -17px; }

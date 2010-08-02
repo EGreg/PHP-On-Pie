@@ -1,0 +1,18 @@
+{
+	"pie": {
+		"app": "myApp",
+		"plugins": ["users", "items"],
+		"handlersBeforeEvent": {
+
+		},
+		"handlersAfterEvent": {
+		
+		},
+		"routes": {
+			"": {"module": "myApp", "action": "welcome"},
+			"facebook/": {"module": "myApp", "action": "welcome", "facebook": 1},
+			"facebook/$action.html": {"module": "myApp", "facebook": 1},
+			"$action": {"module": "myApp"}
+		}
+	}
+}

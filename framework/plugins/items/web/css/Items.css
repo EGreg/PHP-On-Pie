@@ -1,0 +1,13 @@
+/*
+ * items/addPhoto tool
+ */
+
+.items_addPhoto_tool .items_addPhoto_tool_photos { height: 200px; text-align: center; margin-top: 10px; }
+.items_addPhoto_tool .items_addPhoto_tool_photos_list { height: 200px; overflow: hidden; overflow-y: auto; }
+.items_addPhoto_tool .items_addPhoto_tool_photos_list img { height: 100px; cursor: pointer; }
+
+.items_addPhoto_tool .items_addPhoto_tool_photo_uploader { padding: 10px; text-align: center; }
+.items_addPhoto_tool input.file { cursor: pointer; }
+.items_addPhoto_tool .items_addPhoto_tool_certify { font-size: 11px; }
+
+.items_addPhoto_tool .items_addPhoto_tool_photos img { border-right: solid 2px transparent; }
