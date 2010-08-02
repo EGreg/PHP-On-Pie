@@ -1,0 +1,1 @@
+Put symlinks into this directory, pointing to the "web" folders of the plugins that you have loaded in your app.
