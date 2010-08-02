@@ -21,21 +21,6 @@ Apache 1.2 and up (can be changed to Lighthttpd, etc.)
 MySQL 5 and up (currently the only supported DBMS)
 PHP 5 and up
 
-
-TODO FOR GREG
-----
-
-Study Zend Framework
-
-Server-side rendering
-	tools render HTML from the MVC -- done
-	tools render javascript to initialize themselves -- done
-
-Client-side instantiation
-	tools create basic HTML if $('#'+prefix+'tool') is empty
-	
-
-Actions
-	can do post - done
-	response fills slots and wraps result in layout - done
-		* what are the slot naming conventions?
+JOIN OUR PROJECT!
+FOR MORE INFORMATION: http://phponpie.com
+ENJOY! :-)
